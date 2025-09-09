@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resources Guide</title>
+<meta name="theme-color" content="#0b1320">
+<style>
+  :root { --pad: 14px; }
+  * { box-sizing:border-box; }
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#0b1320; color:#e8edf7; }
+  header { padding: var(--pad); background:#0e1a33; position:sticky; top:0; z-index:10; border-bottom:1px solid #1e2a4a; }
+  h1 { font-size: 20px; margin:0 0 10px 0; font-weight:700; }
+  .controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  select, input[type="search"] { width:100%; max-width:520px; padding:12px; border-radius:10px; border:1px solid #2b3963; background:#121d38; color:#e8edf7; }
+  main { padding: var(--pad); }
+  .count { margin: 8px 0 4px; opacity: .8; font-size: 13px; }
+  ul { list-style:none; padding:0; margin:0; }
+  li { background:#121d38; margin:10px 0; border:1px solid #1e2a4a; border-radius:12px; }
+  .item { padding:14px; display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+  .label { line-height:1.35; word-break:break-word; }
+  a.btn { text-decoration:none; padding:10px 12px; border-radius:8px; border:1px solid #2b3963; background:#16254a; color:#cfe0ff; white-space:nowrap; }
+  a.btn:hover { filter:brightness(1.05); }
+  footer { padding: 20px; text-align:center; opacity:.6; font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Resources Guide</h1>
+  <div class="controls">
+    <select id="category" aria-label="Choose category"></select>
+    <input id="search" type="search" placeholder="Search within this category…" aria-label="Search resources">
+  </div>
+</header>
+<main>
+  <div class="count" id="count"></div>
+  <ul id="list"></ul>
+</main>
+<footer>Scan via QR → pick a category → tap to Call / Email / Open.</footer>
+
+<script>
+const DATA = {'GENERAL LINKS': [{'label': 'RESOURCES FOR YOU AND YOUR FAMILY AT NAVAL BASE KITSAP', 'href': None}, {'label': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap', 'href': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap'}, {'label': 'https://kitsap.navylifepnw.com/', 'href': 'https://kitsap.navylifepnw.com/'}], 'EMERGENCY NUMBERS': [{'label': '911 - Emergency Services', 'href': None}, {'label': '988 - 24/7 Suicide & Crisis Lifeline', 'href': None}, {'label': '988 +1 - Veterans/Military Crisis Line', 'href': None}, {'label': '877-995-5247 - Safe Helpline (Sexual Assault)', 'href': 'tel:8779955247'}, {'label': '1-800-273-8255 - National Suicide Prevention Lifeline', 'href': 'tel:18002738255'}, {'label': '"HELP" to 741741 - Crisis Textline', 'href': None}], 'IN UNIT PROVIDERS': [{'label': 'Laura Williams - Military Family Life Counselor', 'href': None}], 'EMBEDDED BEHAVIOURAL HEALTH': [{'label': 'LCDR Redmon - Chaplain', 'href': None}], 'TRICARE': [{'label': 'https://www.tricare.mil/', 'href': 'https://www.tricare.mil/'}, {'label': 'Safe Helpline (Sexual Assault)', 'href': None}, {'label': 'https://safehelpline.org/', 'href': 'https://safehelpline.org/'}], 'MILITARY ONESOURCE COUNSELING': [{'label': 'https://www.militaryonesource.mil/confidential-counseling/', 'href': 'https://www.militaryonesource.mil/confidential-counseling/'}, {'label': 'Saint Michaels Hospital', 'href': None}, {'label': 'https://www.vmfh.org/our-hospitals/st-michael-medical-center', 'href': 'https://www.vmfh.org/our-hospitals/st-michael-medical-center'}, {'label': 'Madigan Army Medical Center', 'href': None}, {'label': 'https://madigan.tricare.mil/', 'href': 'https://madigan.tricare.mil/'}, {'label': 'Fleet & Family Support Center', 'href': None}, {'label': 'https://kitsap.navylifepnw.com/fleet-family/counseling-services', 'href': 'https://kitsap.navylifepnw.com/fleet-family/counseling-services'}, {'label': 'Application Directory', 'href': None}, {'label': 'https://mobile.va.gov/appstore/mental-health', 'href': 'https://mobile.va.gov/appstore/mental-health'}], 'EDUCATION AND CAREER': [{'label': 'USO Transition Program', 'href': None}, {'label': 'https://www.uso.org/programs/uso-transition-program', 'href': 'https://www.uso.org/programs/uso-transition-program'}], 'NAVY COOL': [{'label': 'https://www.cool.osd.mil/usn/index.html', 'href': 'https://www.cool.osd.mil/usn/index.html'}, {'label': 'Spouse Education & Career Opportunities', 'href': None}, {'label': 'https://mycaa.militaryonesource.mil/mycaa/', 'href': 'https://mycaa.militaryonesource.mil/mycaa/'}], 'BASIC NEEDS FOR NEW ARRIVALS': [{'label': 'Motor Vehicle Needs and FAQ', 'href': None}, {'label': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap/transportation/motor-vehicles', 'href': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap/transportation/motor-vehicles'}, {'label': 'On Base Housing Information', 'href': None}, {'label': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap/housing/housing', 'href': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap/housing/housing'}], 'FAMILY AND CHILD': [{'label': 'New Parent Support Home Visitation', 'href': None}, {'label': 'https://kitsap.navylifepnw.com/fleet-family/family-assistance/parent-support', 'href': 'https://kitsap.navylifepnw.com/fleet-family/family-assistance/parent-support'}, {'label': 'Exceltional Family Member Program', 'href': None}, {'label': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap/exceptional-family-member-program/exceptional-family-member-program', 'href': 'https://installations.militaryonesource.mil/military-installation/naval-base-kitsap/exceptional-family-member-program/exceptional-family-member-program'}, {'label': 'CREDO Northwest Facebook', 'href': None}, {'label': 'https://www.facebook.com/CREDO.Northwest/', 'href': 'https://www.facebook.com/CREDO.Northwest/'}, {'label': 'Military Childcare', 'href': None}, {'label': 'https://public.militarychildcare.csd.disa.mil/mcc-central/mcchome/search-for-care?filter%5Blocation%5D=Naval+Base+Kitsap%2C+WA%2C+USA&filter%5Bradius%5D=15&searchType=radius&resultType=militaryOperated&showAllTabs=1', 'href': 'https://public.militarychildcare.csd.disa.mil/mcc-central/mcchome/search-for-care?filter%5Blocation%5D=Naval+Base+Kitsap%2C+WA%2C+USA&filter%5Bradius%5D=15&searchType=radius&resultType=militaryOperated&showAllTabs=1'}, {'label': 'Spouse Education & Career Opportunities', 'href': None}, {'label': 'https://mycaa.militaryonesource.mil/mycaa/', 'href': 'https://mycaa.militaryonesource.mil/mycaa/'}], 'SINGLE MARINES & SAILORS': [{'label': 'Liberty Center, Bangor - Events', 'href': None}, {'label': 'https://kitsap.navylifepnw.com/programs/820c5ebe-b695-4974-8bb0-0920879753d5', 'href': 'https://kitsap.navylifepnw.com/programs/820c5ebe-b695-4974-8bb0-0920879753d5'}], 'FINANCIAL': [{'label': 'Navy-Marine Corps Relief Society', 'href': None}, {'label': 'https://www.nmcrs.org/', 'href': 'https://www.nmcrs.org/'}], 'FINANCIAL COUNSELING': [{'label': 'https://www.militaryonesource.mil/benefits/financial-counseling/', 'href': 'https://www.militaryonesource.mil/benefits/financial-counseling/'}, {'label': 'Tax Software & Support', 'href': None}, {'label': 'https://www.militaryonesource.mil/financial-legal/taxes/miltax-military-tax-services/', 'href': 'https://www.militaryonesource.mil/financial-legal/taxes/miltax-military-tax-services/'}, {'label': 'Thrift Savings Plan', 'href': None}, {'label': 'https://www.tsp.gov/', 'href': 'https://www.tsp.gov/'}, {'label': 'Regular Military Compensation (RMC) Calculator', 'href': None}, {'label': 'https://militarypay.defense.gov/Calculators/RMC-Calculator/', 'href': 'https://militarypay.defense.gov/Calculators/RMC-Calculator/'}, {'label': 'Coupons & Savings', 'href': None}, {'label': 'ExpertVoice', 'href': None}, {'label': 'https://www.expertvoice.com/', 'href': 'https://www.expertvoice.com/'}, {'label': 'Vet Tix', 'href': None}, {'label': 'https://www.vettix.org/', 'href': 'https://www.vettix.org/'}, {'label': 'GovX', 'href': None}, {'label': 'https://www.govx.com/', 'href': 'https://www.govx.com/'}, {'label': 'American Forces Travel', 'href': None}, {'label': 'https://www.americanforcestravel.com/', 'href': 'https://www.americanforcestravel.com/'}, {'label': 'Armed Forces Vacation Club', 'href': None}, {'label': 'https://www.afvclub.com/', 'href': 'https://www.afvclub.com/'}, {'label': 'MWR Tickets', 'href': None}, {'label': 'https://kitsap.navylifepnw.com/programs/005fc6a1-6acb-4f48-b5a3-f66cbbf9568f', 'href': 'https://kitsap.navylifepnw.com/programs/005fc6a1-6acb-4f48-b5a3-f66cbbf9568f'}, {'label': 'Legal & Administrative', 'href': None}, {'label': 'Base Legal Services', 'href': None}, {'label': 'https://cnrnw.cnic.navy.mil/Installations/NAVBASE-Kitsap/About/Installation-Guide/Legal-Services/', 'href': 'https://cnrnw.cnic.navy.mil/Installations/NAVBASE-Kitsap/About/Installation-Guide/Legal-Services/'}, {'label': 'Citizenship and Immigration Services', 'href': None}, {'label': 'https://www.uscis.gov/', 'href': 'https://www.uscis.gov/'}, {'label': 'Kitsap County Passport Office', 'href': None}, {'label': 'https://www.kitsap.gov/clerk/Pages/Passports.aspx', 'href': 'https://www.kitsap.gov/clerk/Pages/Passports.aspx'}, {'label': 'Applying For a Marriage License in Kistap County', 'href': None}, {'label': 'https://www.kitsap.gov/auditor/Pages/kitsap-county-marriage-license.aspx', 'href': 'https://www.kitsap.gov/auditor/Pages/kitsap-county-marriage-license.aspx'}], 'MISC.': [{'label': 'Brandon Act', 'href': None}, {'label': 'https://health.mil/Military-Health-Topics/Mental-Health/Brandon-Act', 'href': 'https://health.mil/Military-Health-Topics/Mental-Health/Brandon-Act'}], 'SECNAVINST 1730.8B - ACCOMMODATION OF RELIGIOUS PRACTICES': [{'label': 'https://www.secnav.navy.mil/doni/Directives/01000%20Military%20Personnel%20Support/01-700%20Morale,%20Community%20and%20Religious%20Services/1730.8B%20CH-1.pdf', 'href': 'https://www.secnav.navy.mil/doni/Directives/01000%20Military%20Personnel%20Support/01-700%20Morale,%20Community%20and%20Religious%20Services/1730.8B%20CH-1.pdf'}], 'SECNAVINST 1730.11 - CONFIDENTAL COMMUNICATIONS TO CHAPLAINS': [{'label': 'https://www.secnav.navy.mil/doni/Directives/01000%20Military%20Personnel%20Support/01-700%20Morale,%20Community%20and%20Religious%20Services/1730.11.pdf', 'href': 'https://www.secnav.navy.mil/doni/Directives/01000%20Military%20Personnel%20Support/01-700%20Morale,%20Community%20and%20Religious%20Services/1730.11.pdf'}]};
+
+const selectEl = document.getElementById('category');
+const searchEl = document.getElementById('search');
+const listEl = document.getElementById('list');
+const countEl = document.getElementById('count');
+
+// Populate categories
+const cats = Object.keys(DATA).sort();
+for (const c of cats) {
+  const opt = document.createElement('option');
+  opt.value = c; opt.textContent = c;
+  selectEl.appendChild(opt);
+}
+
+function render() {
+  const cat = selectEl.value;
+  const q = (searchEl.value || '').toLowerCase();
+  const items = (DATA[cat] || []).filter(it => !q || it.label.toLowerCase().includes(q));
+  listEl.innerHTML = '';
+  countEl.textContent = (cat ? cat + ' — ' : '') + items.length + (q ? ' match(es)' : ' resource(s)');
+  for (const it of items) {
+    const li = document.createElement('li');
+    const wrap = document.createElement('div');
+    wrap.className = 'item';
+    const lab = document.createElement('div');
+    lab.className = 'label';
+    lab.textContent = it.label;
+    wrap.appendChild(lab);
+    if (it.href) {
+      const a = document.createElement('a');
+      a.className = 'btn';
+      a.href = it.href;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = it.href.startsWith('tel:') ? 'Call' : (it.href.startsWith('mailto:') ? 'Email' : 'Open');
+      wrap.appendChild(a);
+    }
+    li.appendChild(wrap);
+    listEl.appendChild(li);
+  }
+}
+
+selectEl.addEventListener('change', render);
+searchEl.addEventListener('input', render);
+
+// Initialize
+selectEl.value = cats[0] || '';
+render();
+</script>
+</body>
+</html>
